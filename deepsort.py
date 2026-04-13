@@ -1,6 +1,6 @@
 def deep_sorted(x: any) -> str:
     if isinstance(x, dict):
-        items = sorted(x.items(), key=lambda kv: repr(kv[0]))
+        items = sorted(x.items(), key=lambda kv: str(kv[0]))
         s = '{'
         first = True
         for k, v in items:
@@ -12,7 +12,7 @@ def deep_sorted(x: any) -> str:
         return s
 
     if isinstance(x, list):
-        vals = sorted(x, key=repr)
+        vals = sorted(x, key=str)
         s = '['
         first = True
         for v in vals:
@@ -24,7 +24,7 @@ def deep_sorted(x: any) -> str:
         return s
 
     if isinstance(x, tuple):
-        vals = sorted(x, key=repr)
+        vals = sorted(x, key=str)
         s = '('
         first = True
         for v in vals:
@@ -38,7 +38,7 @@ def deep_sorted(x: any) -> str:
         return s
 
     if isinstance(x, set):
-        vals = sorted(x, key=repr)
+        vals = sorted(x, key=str)
         s = '{'
         first = True
         for v in vals:
@@ -49,10 +49,4 @@ def deep_sorted(x: any) -> str:
         s += '}'
         return s
 
-    return repr(x)
-
-if __name__ == '__main__':
-    x=eval(input()) 
-    print(deep_sorted(x))
-    import doctest
-    print(doctest.testmod())
+    return str(x)
