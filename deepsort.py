@@ -1,15 +1,27 @@
 def deep_sorted(x: any) -> str:
+    def sort_key(v):
+        try:
+            return (0, int(v))
+        except:
+            return (1, str(v))
+
+    def atom(v):
+        try:
+            return str(int(v))
+        except:
+            return str(v)
+
     if isinstance(x, dict):
-        items = sorted(x.items(), key=lambda kv: repr(kv[0]))
+        items = sorted(x.items(), key=lambda kv: sort_key(kv[0]))
         return '{' + ', '.join(f'{deep_sorted(k)}: {deep_sorted(v)}' for k, v in items) + '}'
     if isinstance(x, list):
-        return '[' + ', '.join(deep_sorted(v) for v in sorted(x, key=repr)) + ']'
+        return '[' + ', '.join(deep_sorted(v) for v in sorted(x, key=sort_key)) + ']'
     if isinstance(x, tuple):
-        s = ', '.join(deep_sorted(v) for v in sorted(x, key=repr))
+        s = ', '.join(deep_sorted(v) for v in sorted(x, key=sort_key))
         return '(' + s + (',' if len(x) == 1 else '') + ')'
     if isinstance(x, set):
-        return '{' + ', '.join(deep_sorted(v) for v in sorted(x, key=repr)) + '}'
-    return repr(x)
+        return '{' + ', '.join(deep_sorted(v) for v in sorted(x, key=sort_key)) + '}'
+    return atom(x)
 
 
 if __name__ == '__main__':
